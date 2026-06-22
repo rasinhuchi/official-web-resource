@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>星空体育 · 知识库入口</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f4f8fb;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #1a2b3c;
+      padding: 1.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page {
+      max-width: 1200px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 8px 32px rgba(0, 40, 30, 0.06);
+      padding: 2rem 2.5rem;
+      transition: all 0.2s;
+    }
+
+    /* 标题区域 / 知识库 header */
+    .kb-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #d9e9e6;
+      padding-bottom: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .kb-header h1 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #0b3b36;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .kb-header h1 span {
+      background: #c4e6df;
+      padding: 0.1rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      color: #14544a;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-doc {
+      background: #e5f2ef;
+      font-size: 0.8rem;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      color: #0f5c50;
+    }
+
+    /* 目录卡片网格 */
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .card {
+      background: #fafdfc;
+      border: 1px solid #dcebe8;
+      border-radius: 20px;
+      padding: 1.5rem 1.2rem 1.6rem;
+      transition: border-color 0.15s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      border-color: #86c7bb;
+      box-shadow: 0 4px 12px rgba(0, 90, 70, 0.06);
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0b4b42;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .card h3 i {
+      font-style: normal;
+      background: #c1e3db;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: #0d4d42;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #2a4a44;
+      margin-bottom: 0.6rem;
+    }
+
+    .card ul {
+      list-style: none;
+      margin-top: 0.4rem;
+    }
+
+    .card ul li {
+      font-size: 0.85rem;
+      padding: 0.2rem 0;
+      color: #2e5c53;
+      position: relative;
+      padding-left: 1.2rem;
+    }
+
+    .card ul li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: #279683;
+    }
+
+    .tag {
+      background: #d9efea;
+      color: #0f5549;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.8rem;
+      border-radius: 30px;
+      display: inline-block;
+      margin-top: 0.4rem;
+    }
+
+    /* 说明区 + 提示区 双栏 */
+    .info-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+      margin: 2rem 0 2rem;
+    }
+
+    .info-box {
+      background: #f5fcf9;
+      border-radius: 20px;
+      padding: 1.5rem 1.6rem;
+      border-left: 4px solid #3fae98;
+    }
+
+    .info-box h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #09463d;
+      margin-bottom: 0.6rem;
+    }
+
+    .info-box p, .info-box li {
+      font-size: 0.9rem;
+      color: #1a423c;
+    }
+
+    .info-box ul {
+      padding-left: 1.2rem;
+      margin-top: 0.3rem;
+    }
+
+    .info-box ul li {
+      margin-bottom: 0.2rem;
+    }
+
+    .tip-box {
+      background: #edf7f4;
+      border-radius: 20px;
+      padding: 1.5rem 1.6rem;
+      border-left: 4px solid #4a9b89;
+    }
+
+    .tip-box h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #09463d;
+      margin-bottom: 0.6rem;
+    }
+
+    .tip-box .highlight {
+      background: #cfece4;
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+
+    .faq-mini {
+      margin: 2.2rem 0 1.8rem;
+      background: #f4fcf9;
+      border-radius: 24px;
+      padding: 1.5rem 2rem;
+      border: 1px solid #cde3dd;
+    }
+
+    .faq-mini h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #075046;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .faq-item {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 0.7rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px dashed #c6dbd5;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .faq-q {
+      min-width: 110px;
+      font-weight: 600;
+      color: #0d5247;
+      font-size: 0.9rem;
+    }
+
+    .faq-a {
+      flex: 1;
+      color: #1d4840;
+      font-size: 0.9rem;
+    }
+
+    .related-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #ddece8;
+      padding-top: 1.8rem;
+      margin-top: 1rem;
+      gap: 1rem;
+    }
+
+    .related-links p {
+      font-size: 0.85rem;
+      color: #34665b;
+    }
+
+    .related-links a {
+      color: #1b7f6c;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s;
+    }
+
+    .related-links a:hover {
+      border-bottom-color: #1b7f6c;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #6d9288;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e2efeb;
+    }
+
+    /* 响应式 */
+    @media (max-width: 800px) {
+      .page {
+        padding: 1.5rem 1rem;
+      }
+      .info-panel {
+        grid-template-columns: 1fr;
+      }
+      .kb-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+      }
+      .faq-mini {
+        padding: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 0.8rem;
+      }
+      .page {
+        border-radius: 24px;
+        padding: 1rem 0.9rem;
+      }
+      .grid-cards {
+        grid-template-columns: 1fr;
+      }
+      .info-box, .tip-box {
+        padding: 1rem;
+      }
+      .faq-q {
+        min-width: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 头部：知识库标识 -->
+  <div class="kb-header">
+    <h1>📚 星空体育 · 知识库 <span>v1.2</span></h1>
+    <div class="badge-doc">索引 · 说明 · 场景</div>
+  </div>
+
+  <!-- 目录卡片网格：四个主题入口 -->
+  <div class="grid-cards">
+    <div class="card">
+      <h3><i>✦</i> 玩法机制</h3>
+      <p>回合制、实时对抗与积分赛制的底层逻辑。涵盖规则文档、版本更新与判定流程。</p>
+      <ul>
+        <li>标准赛制与变体模式</li>
+        <li>胜负判定与计分细则</li>
+        <li>赛季轮换与平衡调整</li>
+      </ul>
+      <span class="tag">6 篇</span>
+    </div>
+    <div class="card">
+      <h3><i>✦</i> 数据统计</h3>
+      <p>历史对局、选手表现与趋势分析。基于公开数据的整理，辅助策略参考。</p>
+      <ul>
+        <li>选手胜率与常用组合</li>
+        <li>地图/环境频率统计</li>
+        <li>赛季数据对比</li>
+      </ul>
+      <span class="tag">5 篇</span>
+    </div>
+    <div class="card">
+      <h3><i>✦</i> 术语与规则</h3>
+      <p>常用术语、判定边界与常见争议解释。帮助新参与者快速理解环境。</p>
+      <ul>
+        <li>基本术语表（中英对照）</li>
+        <li>判例与常见问题</li>
+        <li>版本术语变更记录</li>
+      </ul>
+      <span class="tag">8 篇</span>
+    </div>
+    <div class="card">
+      <h3><i>✦</i> 环境与社区</h3>
+      <p>沟通渠道、赛事资讯与知识贡献指南。保持信息透明与协作更新。</p>
+      <ul>
+        <li>社区讨论与反馈渠道</li>
+        <li>赛事日程与转播信息</li>
+        <li>知识库编辑规范</li>
+      </ul>
+      <span class="tag">4 篇</span>
+    </div>
+  </div>
+
+  <!-- 说明区 + 提示区 两列布局 -->
+  <div class="info-panel">
+    <div class="info-box">
+      <h4>📋 说明区</h4>
+      <p>本知识库围绕 <a href="https://official-web-xingkong.com" style="color: #1a7a68; text-decoration: underline; font-weight: 500;">星空体育</a> 主题内容进行结构化整理，面向希望深入了解规则、数据与社区动态的用户。内容基于公开信息与社区贡献，保持中立与可验证性。</p>
+      <ul>
+        <li>所有文档均标注版本与更新日期</li>
+        <li>数据来源以官方披露与合规渠道为准</li>
+        <li>欢迎通过社区渠道提交修正或补充</li>
+      </ul>
+    </div>
+    <div class="tip-box">
+      <h4>💡 提示区</h4>
+      <p>查阅时建议结合 <span class="highlight">玩法机制</span> 与 <span class="highlight">术语规则</span> 两个模块交叉理解，尤其适合刚接触相关内容的用户。数据统计模块每赛季更新，注意版本标注。</p>
+      <p style="margin-top: 0.8rem;">🔹 如果您在寻找特定赛事或历史记录，可先浏览「环境与社区」中的索引链接。</p>
+    </div>
+  </div>
+
+  <!-- FAQ 摘要区 -->
+  <div class="faq-mini">
+    <h4>❓ 常见问题摘要</h4>
+    <div class="faq-item">
+      <span class="faq-q">如何参与讨论？</span>
+      <span class="faq-a">社区板块设有专门频道，规则与入会方式见「社区与指南」文档。</span>
+    </div>
+    <div class="faq-item">
+      <span class="faq-q">数据统计来源？</span>
+      <span class="faq-a">所有数据取自合规公开接口与官方报告，每篇附录数据日期。</span>
+    </div>
+    <div class="faq-item">
+      <span class="faq-q">知识库是否保持更新？</span>
+      <span class="faq-a">是，跟随赛季与版本节奏更新，变更记录保存在日志页面。</span>
+    </div>
+    <div class="faq-item">
+      <span class="faq-q">推荐从哪里开始？</span>
+      <span class="faq-a">建议先阅读「玩法机制」基础篇，再结合术语表查阅。</span>
+    </div>
+  </div>
+
+  <!-- 相关信息区 + 链接 -->
+  <div class="related-links">
+    <p><span style="font-weight: 500;">相关信息</span> · 主题百科 · 赛季档案 · 版本日志</p>
+    <p>主站：<a href="https://official-web-xingkong.com">星空体育</a> · 内容索引持续扩充中</p>
+  </div>
+
+  <div class="footer-note">
+    知识库基于公开资料整理 · 保持信息简洁与参考价值
+  </div>
+
+</div>
+</body>
+</html>
